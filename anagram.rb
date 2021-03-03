@@ -27,7 +27,7 @@ end
 TARGET = "のにんれうしでお"
 
 # 辞書を読み込み
-WORDS = read_wordlist('./anagram/words_dic.csv')
+WORDS = read_wordlist('./words_dic.csv')
 
 # クラスを作成
 Anagrams = make_anagrams(WORDS)
