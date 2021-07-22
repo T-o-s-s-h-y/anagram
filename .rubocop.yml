@@ -1,0 +1,6 @@
+Style/AsciiComments:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Semicolon:
+  AllowAsExpressionSeparator: true

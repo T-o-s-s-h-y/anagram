@@ -1,20 +1,21 @@
-# encoding: utf-8
+# frozen_string_literal: true
+
 def signature(word)
   # 単語のシグネチャーを作成(英字は大文字に変換)
-  word.encode("utf-8").upcase.chars.sort.join.intern
+  word.encode('utf-8').upcase.chars.sort.join.intern
 end
 
 def read_wordlist(path)
-  File.open(path, mode = "rt:utf-8") do |wordlist|
+  File.open(path, 'rt:utf-8') do |wordlist|
     # 改行コード、重複の文字列、空行、1文字の単語を除去して読み込み(英字は大文字に変換)
-    wordlist.map { |line| line.encode("utf-8").chomp.upcase }.uniq.reject { |word| word.size < 2 }
+    wordlist.map { |line| line.encode('utf-8').chomp.upcase }.uniq.reject { |word| word.size < 2 }
   end
 end
 
 def make_anagrams(words)
   words.map { |word| [signature(word), word] }
-       .inject({}) { |hash, (signature, word)| hash[signature] ||= []; hash[signature] << word; hash }
-       .select { |signature, words| words.size > 0 }
+       .each_with_object({}) { |(signature, word), hash| hash[signature] ||= []; hash[signature] << word; }
+       .select { |_signature, w| w.size.positive? }
 end
 
 def find_anagrams(word)
@@ -24,7 +25,7 @@ def find_anagrams(word)
 end
 
 # 調査対象の文字列
-TARGET = "のにんれうしでお"
+TARGET = 'のにんれうしでお'
 
 # 辞書を読み込み
 WORDS = read_wordlist('./words_dic.csv')
@@ -34,4 +35,3 @@ Anagrams = make_anagrams(WORDS)
 
 # アナグラムの結果を出力
 puts find_anagrams(TARGET)
-
